@@ -1,15 +1,11 @@
 #!/usr/bin/env zsh
 
 hosts=()
-{
 if [ -f ~/.ssh/config ]; then
   hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
-  if (( $+commands[avahi-browse] )); then
-    hosts+=( $(avahi-browse -atp | awk -F';' '{print $4}' | sort | uniq | awk '{print $1".local"}') )
-  fi
 fi
 
-} &!
+
 
 zstyle ':completion:*:hosts' hosts $hosts
 
