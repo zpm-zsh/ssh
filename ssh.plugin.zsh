@@ -2,12 +2,12 @@
 
 hosts=()
 cache_file="${TMPDIR:-/tmp}/zpm-zsh-ssh-cache.$UID.zsh"
-if [[ -f ~/.ssh/config ]]; then
-  if [[ ~/.ssh/config -nt "$cache_file" || ! -s "$cache_file"  ]]; then
+if [[ ~/.ssh/config -nt "$cache_file" || ! -s "$cache_file"  ]]; then
+  source "$cache_file"
+else
+  if [[ -f ~/.ssh/config ]]; then
     hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
     typeset -p hosts >! "$cache_file" 2> /dev/null
-  else
-    source "$cache_file"
   fi
 fi
 
