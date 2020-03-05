@@ -1,13 +1,13 @@
 #!/usr/bin/env zsh
 
 hosts=()
-cache_file="${TMPDIR:-/tmp}/zpm-zsh-ssh-cache.$UID.zsh"
+CACHE_FILE="${TMPDIR:-/tmp}/zsh-${UID}/ssh-hosts.zsh"
 if [[ -f ~/.ssh/config ]]; then
-  if [[ ~/.ssh/config -nt "$cache_file" || ! -s "$cache_file"  ]]; then
+  if [[ ~/.ssh/config -nt "$CACHE_FILE" || ! -s "$CACHE_FILE"  ]]; then
     hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
-    typeset -p hosts >! "$cache_file" 2> /dev/null
+    typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
   else
-    source "$cache_file"
+    source "$CACHE_FILE"
   fi
 fi
 
