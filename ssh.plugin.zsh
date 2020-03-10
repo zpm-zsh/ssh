@@ -6,6 +6,7 @@ if [[ -f ~/.ssh/config ]]; then
   if [[ ~/.ssh/config -nt "$CACHE_FILE" || ! -s "$CACHE_FILE"  ]]; then
     hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
+    zcompile "$CACHE_FILE"
   else
     source "$CACHE_FILE"
   fi
