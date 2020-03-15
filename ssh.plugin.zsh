@@ -3,7 +3,7 @@
 hosts=()
 CACHE_FILE="${TMPDIR:-/tmp}/zsh-${UID}/ssh-hosts.zsh"
 if [[ -f ~/.ssh/config ]]; then
-  if [[ ~/.ssh/config -nt "$CACHE_FILE" ]]; then
+  if [[ ~/.ssh/config -nt "$CACHE_FILE" || ! -s "$CACHE_FILE"  ]]; then
     mkdir -p "${CACHE_FILE:h}"
     hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
