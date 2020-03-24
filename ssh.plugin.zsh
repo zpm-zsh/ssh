@@ -3,13 +3,13 @@
 hosts=()
 CACHE_FILE="${TMPDIR:-/tmp}/zsh-${UID}/ssh-hosts.zsh"
 if [[ -f ~/.ssh/config ]]; then
-  if [[ -f "$CACHE_FILE" && "$HOME/.ssh/config" -ot "$CACHE_FILE" ]]; then
-    source "$CACHE_FILE"
-  else
+  if [[ ! "$CACHE_FILE" -nt "$HOME/.ssh/config" ]]; then
     mkdir -p "${CACHE_FILE:h}"
     hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
     zcompile "$CACHE_FILE"
+  else
+    source "$CACHE_FILE"
   fi
 fi
 
