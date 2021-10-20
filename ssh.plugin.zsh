@@ -7,7 +7,7 @@ if [[ -f ~/.ssh/config ]]; then
     source "$CACHE_FILE"
   else
     mkdir -p "${CACHE_FILE:h}"
-    hosts=( $(grep '^Host' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
+    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | xargs) )
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
     zcompile "$CACHE_FILE"
   fi
