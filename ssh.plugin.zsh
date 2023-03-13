@@ -1,7 +1,9 @@
 #!/usr/bin/env zsh
 
+ZSH_CACHE_DIR="${ZSH_CACHE_DIR:-${TMPDIR:-/tmp}/zsh-${UID:-user}}"
+CACHE_FILE="${ZSH_CACHE_DIR}/ssh-hosts.zsh"
+
 hosts=()
-CACHE_FILE="${TMPDIR:-/tmp}/zsh-${UID}/ssh-hosts.zsh"
 if [[ -f ~/.ssh/config ]]; then
   if [[ "$CACHE_FILE" -nt "$HOME/.ssh/config" ]]; then
     source "$CACHE_FILE"
