@@ -20,15 +20,11 @@ zstyle ':completion:*:hosts' hosts $hosts
 zstyle ':completion:*:(ssh|scp|sshfs|mosh):*' sort false
 zstyle ':completion:*:(ssh|scp|sshfs|mosh):*' format ' %F{yellow}-- %d --%f'
 
-zstyle ':completion:*:(ssh|scp|sshfs|mosh):*' group-name ''
-zstyle ':completion:*:(ssh|scp|sshfs|mosh):*' verbose yes
+zstyle ':completion:*:(ssh|scp|rsync|sshfs|mosh):*' group-name ''
+zstyle ':completion:*:(ssh|scp|rsync|sshfs|mosh):*' verbose yes
 
-zstyle ':completion:*:(scp|rsync|sshfs):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
-zstyle ':completion:*:(scp|rsync|sshfs):*' group-order users files all-files hosts-domain hosts-host hosts-ipaddr
+zstyle ':completion:*:(ssh|mosh):*' group-order users hosts-host users
+# zstyle ':completion:*:(ssh|mosh):*' tag-order 'hosts:-host:Hosts users:-users:Users *'
 
-zstyle ':completion:*:(ssh|mosh):*' tag-order 'hosts:-host:host hosts:-domain:domain hosts:-ipaddr:ip\ address *'
-zstyle ':completion:*:(ssh|mosh):*' group-order users hosts-domain hosts-host users hosts-ipaddr
-
-zstyle ':completion:*:(ssh|scp|sshfs|mosh):*:hosts-host' ignored-patterns '*(.|:)*' loopback localhost broadcasthost 'ip6-*'
-zstyle ':completion:*:(ssh|scp|sshfs|mosh):*:hosts-domain' ignored-patterns '<->.<->.<->.<->' '^[-[:alnum:]]##(.[-[:alnum:]]##)##' '*@*'
-zstyle ':completion:*:(ssh|scp|sshfs|mosh):*:hosts-ipaddr' ignored-patterns '^(<->.<->.<->.<->|(|::)([[:xdigit:].]##:(#c,2))##(|%*))' '127.0.*' '255.255.255.255' '::1' 'fe80::*' 'ff02::*'
+zstyle ':completion:*:(scp|rsync|sshfs):*' group-order files all-files hosts-domain hosts-host hosts-ipaddr users
+# zstyle ':completion:*:(scp|rsync|sshfs):*' tag-order  'files hosts:-host:Hosts users:-users:Users  *'
