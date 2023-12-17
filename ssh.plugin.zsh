@@ -9,7 +9,7 @@ if [[ -f ~/.ssh/config ]]; then
     source "$CACHE_FILE"
   else
     mkdir -p "${CACHE_FILE:h}"
-    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | sort -u | uniq | xargs ) )
+    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | grep -v '*' | sort -u | uniq | xargs ) )
 
     # pre_hosts=()
     # post_hosts=()
