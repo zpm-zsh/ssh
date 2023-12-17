@@ -9,7 +9,30 @@ if [[ -f ~/.ssh/config ]]; then
     source "$CACHE_FILE"
   else
     mkdir -p "${CACHE_FILE:h}"
-    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | grep -v '*' | sort -u | uniq | xargs ) )
+    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | sort -u | uniq | xargs ) )
+
+    # pre_hosts=()
+    # post_hosts=()
+
+    # for host in $raw_hosts; do
+    #     if [[ "$host" == '*' ]]; then
+    #         continue
+    #     elif [[ "$host" == '*'* ]]; then
+    #         post_hosts+=( "${host#?}" )
+    #     elif [[ "$host" == *'*' ]]; then
+    #         pre_hosts+=( "${host%?}" )
+    #         hosts+=( "${host%?}" )
+    #     else
+    #         hosts+=( "${host}" )
+    #     fi
+    # done
+
+    # for pre in $pre_hosts; do
+    #     for post in $post_hosts; do
+    #         hosts+=( "${pre}${post}" )
+    #     done
+    # done
+
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
     zcompile "$CACHE_FILE"
   fi
