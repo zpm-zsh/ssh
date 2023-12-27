@@ -5,11 +5,11 @@ CACHE_FILE="${ZSH_CACHE_DIR}/ssh-hosts.zsh"
 
 hosts=()
 if [[ -f ~/.ssh/config ]]; then
-  if [[ "$CACHE_FILE" -nt "$HOME/.ssh/config" ]]; then
+  if [[ "$CACHE_FILE" -nt "$HOME/.ssh/config1" ]]; then
     source "$CACHE_FILE"
   else
     mkdir -p "${CACHE_FILE:h}"
-    hosts=( $(grep '^Host ' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | grep -v '*' | sort -u | uniq | xargs ) )
+    hosts=( $(grep '^Host ' ~/.ssh/config | grep -v 'Ignore' | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | grep -v '*' | sort -u | uniq | xargs ) )
 
     # pre_hosts=()
     # post_hosts=()
@@ -33,6 +33,10 @@ if [[ -f ~/.ssh/config ]]; then
     #     done
     # done
 
+    # ignore=( $(grep '^#Ignore' ~/.ssh/config | awk '{first = $1; $1 = ""; print $0; }' | tr " " "\n" | grep -v '*' | sort -u | uniq | xargs ) )
+
+    # hosts=("${(@)hosts:|ignore}")
+
     typeset -p hosts >! "$CACHE_FILE" 2> /dev/null
     zcompile "$CACHE_FILE"
   fi
@@ -47,7 +51,5 @@ zstyle ':completion:*:(ssh|scp|rsync|sshfs|mosh):*' group-name ''
 zstyle ':completion:*:(ssh|scp|rsync|sshfs|mosh):*' verbose yes
 
 zstyle ':completion:*:(ssh|mosh):*' group-order users hosts-host users
-# zstyle ':completion:*:(ssh|mosh):*' tag-order 'hosts:-host:Hosts users:-users:Users *'
 
 zstyle ':completion:*:(scp|rsync|sshfs):*' group-order files all-files hosts-domain hosts-host hosts-ipaddr users
-# zstyle ':completion:*:(scp|rsync|sshfs):*' tag-order  'files hosts:-host:Hosts users:-users:Users  *'
